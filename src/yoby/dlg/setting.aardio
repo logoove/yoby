@@ -1,0 +1,779 @@
+import fonts.fontAwesome;
+import win.ui;
+import process;
+import htmlParser;
+import zlib.unzip;
+import fsys.junction; 
+import win.dlg.message;
+import debug.log;
+/*DSG{{*/
+var winform = win.form(text="服务器";right=984;bottom=589;bgcolor=16777215)
+winform.add(
+button={cls="button";text="go版本";left=524;top=9;right=591;bottom=37;z=33};
+button10={cls="button";text="下载";left=779;top=98;right=835;bottom=126;z=45};
+button11={cls="button";text="设置";left=848;top=97;right=899;bottom=127;z=46};
+button12={cls="button";text="删除";left=913;top=98;right=961;bottom=127;z=47};
+button13={cls="button";text="flutter版本";left=527;top=146;right=595;bottom=180;z=48};
+button14={cls="button";text="下载";left=782;top=145;right=838;bottom=173;z=50};
+button15={cls="button";text="设置";left=851;top=144;right=902;bottom=174;z=51};
+button16={cls="button";text="删除";left=916;top=145;right=964;bottom=174;z=52};
+button17={cls="button";text="检测环境状态";left=524;top=191;right=629;bottom=228;z=53};
+button18={cls="button";text="目录";left=713;top=6;right=769;bottom=34;z=54};
+button19={cls="button";text="目录";left=715;top=51;right=771;bottom=79;z=55};
+button2={cls="button";text="下载";left=776;top=8;right=832;bottom=36;z=35};
+button20={cls="button";text="目录";left=716;top=100;right=772;bottom=128;z=56};
+button21={cls="button";text="目录";left=715;top=145;right=771;bottom=173;z=57};
+button22={cls="button";text="web版redis管理";left=293;top=455;right=412;bottom=496;z=59};
+button3={cls="button";text="设置";left=845;top=7;right=896;bottom=37;z=36};
+button4={cls="button";text="删除";left=910;top=8;right=958;bottom=37;z=37};
+button5={cls="button";text="python版本";left=525;top=53;right=592;bottom=84;z=38};
+button6={cls="button";text="下载";left=777;top=52;right=833;bottom=80;z=40};
+button7={cls="button";text="设置";left=846;top=51;right=897;bottom=81;z=41};
+button8={cls="button";text="删除";left=911;top=52;right=959;bottom=81;z=42};
+button9={cls="button";text="nodejs版本";left=516;top=99;right=592;bottom=130;z=43};
+caddy_cfg={cls="button";text="caddy配置";left=270;top=3;right=389;bottom=44;z=10};
+caddy_home={cls="button";text="首页";left=399;top=3;right=497;bottom=44;z=9};
+caddy_start={cls="button";text="caddy启动";left=7;top=2;right=126;bottom=43;z=5};
+caddy_stop={cls="button";text="caddy停止";left=139;top=2;right=258;bottom=43;z=6};
+db={cls="button";text="web版mysql/pgsql";left=153;top=457;right=272;bottom=498;z=26};
+flist={cls="combobox";left=611;top=152;right=696;bottom=175;edge=1;items={};mode="dropdown";vscroll=1;z=49};
+frp_admin={cls="button";text="frp管理";left=417;top=330;right=514;bottom=371;z=24};
+frp_cfg={cls="button";text="frp配置";left=283;top=329;right=402;bottom=370;z=23};
+frp_start={cls="button";text="frp启动";left=14;top=329;right=133;bottom=370;z=21};
+frp_stop={cls="button";text="frp停止";left=147;top=329;right=266;bottom=370;z=22};
+glist={cls="combobox";left=609;top=9;right=705;bottom=35;edge=1;items={};mode="dropdown";vscroll=1;z=34};
+lbTip={cls="static";left=167;top=700;right=799;bottom=753;db=1;dl=1;dr=1;transparent=1;z=1};
+mysql_cfg={cls="button";text="mysql配置";left=281;top=127;right=400;bottom=168;z=14};
+mysql_mima={cls="button";text="初始账号密码";left=409;top=126;right=506;bottom=168;z=27};
+mysql_start={cls="button";text="mysql启动";left=12;top=127;right=131;bottom=168;z=12};
+mysql_stop={cls="button";text="mysql停止";left=145;top=127;right=264;bottom=168;z=13};
+nlist={cls="combobox";left=609;top=101;right=700;bottom=127;edge=1;items={};mode="dropdown";vscroll=1;z=44};
+pg_mima={cls="button";text="初始账号密码";left=415;top=261;right=515;bottom=303;z=28};
+php_cfg={cls="button";text="php配置";left=281;top=64;right=400;bottom=105;z=11};
+php_start={cls="button";text="php启动";left=12;top=64;right=131;bottom=105;z=7};
+php_stop={cls="button";text="php停止";left=145;top=64;right=264;bottom=105;z=8};
+plist={cls="combobox";left=607;top=59;right=701;bottom=83;edge=1;items={};mode="dropdown";vscroll=1;z=39};
+plus21={cls="plus";text='\uF140 启动';left=169;top=696;right=291;bottom=738;bgcolor=15527148;color=3355443;db=1;dr=1;font=LOGFONT(h=-16;name='FontAwesome');forecolor=15527148;notify=1;tabstop=1;z=2};
+plus22={cls="plus";text='\uF140 frp配置';left=436;top=696;right=558;bottom=738;bgcolor=15527148;color=3355443;db=1;dr=1;font=LOGFONT(h=-16;name='FontAwesome');forecolor=15527148;notify=1;tabstop=1;z=3};
+plus23={cls="plus";text='\uF140 frp停止';left=301;top=696;right=423;bottom=738;bgcolor=15527148;color=3355443;db=1;dr=1;font=LOGFONT(h=-16;name='FontAwesome');forecolor=15527148;notify=1;tabstop=1;z=4};
+pq_cfg={cls="button";text="pgsql配置";left=284;top=261;right=403;bottom=302;z=20};
+pq_start={cls="button";text="pgsql启动";left=15;top=261;right=134;bottom=302;z=18};
+pq_stop={cls="button";text="pgsql停止";left=148;top=261;right=267;bottom=302;z=19};
+redis_cli={cls="button";text="redis-cli";left=281;top=194;right=400;bottom=235;z=17};
+redis_start={cls="button";text="redis启动";left=12;top=194;right=131;bottom=235;z=15};
+redis_stop={cls="button";text="redis停止";left=145;top=194;right=264;bottom=235;z=16};
+static={cls="static";text="退出py(Ctrl+Z)";left=634;top=197;right=724;bottom=227;transparent=1;z=58};
+sync_home={cls="button";text="sync_web管理";left=286;top=393;right=405;bottom=434;z=31};
+sync_start={cls="button";text="syncthing启动";left=14;top=394;right=133;bottom=435;z=30};
+sync_stop={cls="button";text="syncthing停止";left=152;top=393;right=271;bottom=434;z=29};
+test_server={cls="button";text="检测运行状态";left=14;top=457;right=133;bottom=498;z=25};
+web_dir={cls="button";text="网站根目录";left=415;top=62;right=498;bottom=108;z=32}
+)
+/*}}*/
+
+winform.caddy_start.oncommand = function(id,event){
+	id = process.findId("caddy.exe")
+	if(id==null){
+	process.execute(app.appdir+"app.caddy.bat",'','',0x0/*_SW_HIDE*/)
+	winform.caddy_start.text="caddy运行中"
+	winform.msgOk("应用运行成功",2000)
+	}else{
+		winform.msgOk("应用已经运行中",2000)
+	}
+	
+
+}
+
+winform.caddy_stop.oncommand = function(id,event){
+	if(process.find("caddy.exe")){
+	process.kill("caddy.exe")
+	winform.msgOk("caddy停止成功",2000)
+	}else{
+	winform.msgOk("应用未运行",2000)
+	}
+}
+
+winform.caddy_cfg.oncommand = function(id,event){
+	process.execute("notepad",app.appdir+"Caddyfile")
+}
+
+winform.caddy_home.oncommand = function(id,event){
+	process.openUrl("http://localhost")
+}
+
+winform.php_start.oncommand = function(id,event){
+	if(process.findId("php-cgi.exe")){
+		winform.msgOk("应用已经运行中",2000)
+	
+	}else{
+	process.execute(app.appdir+"app.php.bat",'','',0x0/*_SW_HIDE*/)
+	winform.php_start.text="php运行中"
+	winform.msgOk("应用运行成功",2000)	
+	}
+}
+
+winform.frp_admin.oncommand = function(id,event){
+	process.openUrl("http://localhost:7400")
+}
+
+winform.frp_start.oncommand = function(id,event){
+	
+	if(process.find("frpc.exe")==null){
+	process.execute(app.appdir+"app.frpc.bat",'','',0x0/*_SW_HIDE*/)
+	winform.frp_start.text="frpc运行中"
+	winform.msgOk("应用运行成功",2000)
+	}else{
+		winform.msgOk("应用已经运行中",2000)
+	}
+}
+
+winform.frp_stop.oncommand = function(id,event){
+	if(process.find("frpc.exe")){
+	process.kill("frpc.exe")
+	winform.msgOk("frpc停止成功",2000)
+	}else{
+	winform.msgOk("应用未运行",2000)
+	}
+}
+
+winform.frp_cfg.oncommand = function(id,event){
+	process.execute("notepad",app.appdir+"frp\frpc.ini")
+}
+
+winform.php_stop.oncommand = function(id,event){
+	if(process.find("php-cgi.exe")){
+	process.kill("php-cgi.exe")
+	winform.msgOk("php停止成功",2000)
+	}else{
+	winform.msgOk("应用未运行",2000)
+	}
+}
+
+winform.mysql_stop.oncommand = function(id,event){
+	if(process.find("mysqld.exe")){
+	process.kill("mysqld.exe")
+	winform.msgOk("mysql停止成功",2000)
+	}else{
+	winform.msgOk("应用未运行",2000)
+	}
+}
+
+winform.redis_stop.oncommand = function(id,event){
+	if(process.find("redis-server.exe")){
+	process.kill("redis-server.exe")
+	winform.msgOk("redis停止成功",2000)
+	}else{
+	winform.msgOk("应用未运行",2000)
+	}
+}
+
+winform.redis_cli.oncommand = function(id,event){
+	process.execute(app.appdir+"redis\redis-cli.exe")
+}
+
+winform.mysql_start.oncommand = function(id,event){
+	if(process.findId("mysqld.exe")){
+		winform.msgOk("应用已经运行中",2000)
+	
+	}else{
+	process.execute(app.appdir+"app.mysql.bat",'','',0x0/*_SW_HIDE*/)
+	winform.mysql_start.text="mysql运行中"
+	winform.msgOk("应用运行成功",2000)	
+	}
+}
+
+winform.redis_start.oncommand = function(id,event){
+	if(process.findId("redis-server.exe")){
+		winform.msgOk("应用已经运行中",2000)
+	
+	}else{
+	process.execute(app.appdir+"app.redis.bat",'','',0x0/*_SW_HIDE*/)
+	winform.redis_start.text="redis运行中"
+	winform.msgOk("应用运行成功",2000)	
+	}
+}
+
+winform.php_cfg.oncommand = function(id,event){
+	process.execute("notepad",app.appdir+"php-7.2\php.ini")
+}
+
+winform.mysql_cfg.oncommand = function(id,event){
+	process.execute("notepad",app.appdir+"mysql-5.7\my.ini")
+}
+
+winform.test_server.oncommand = function(id,event){
+	var str='';
+	if(process.find("caddy.exe")){
+	str+="✓ caddy  ";
+	}else{
+	str+="✕ caddy  "
+	}
+	if(process.find("php-cgi.exe")){
+	str+="✓ PHP  ";
+	}else{
+	str+="✕ PHP  "
+	}
+	if(process.find("mysqld.exe")){
+	str+="✓ Mysql  ";
+	}else{
+	str+="✕ Mysql  "
+	}
+	if(process.find("redis-server.exe")){
+	str+="✓ redis  ";
+	}else{
+	str+="✕ redis  "
+	}
+	if(process.find("frpc.exe")){
+	str+="✓ Frp ";
+	}else{
+	str+="✕ Frp "
+	}
+	if(process.find("postgres.exe")){
+	str+="✓ pgsql ";
+	}else{
+	str+="✕ pgsql "
+	}	
+	if(process.find("syncthing.exe")){
+	str+="✓ syncthing  ";
+	}else{
+	str+="✕ syncthing  "
+	}			
+	winform.msgInfo(str)
+}
+
+winform.db.oncommand = function(id,event){
+	process.openUrl("https://127.0.0.1:9003")
+}
+
+winform.mysql_mima.oncommand = function(id,event){
+	winform.msgInfo("账号：root 密码：mysql")
+}
+
+winform.pq_cfg.oncommand = function(id,event){
+	process.execute("notepad",app.appdir+"pgsql\data\postgresql.conf")
+}
+
+winform.pg_mima.oncommand = function(id,event){
+	winform.msgInfo("账号：postgres 密码：pgsql")
+}
+
+winform.pq_stop.oncommand = function(id,event){
+	if(process.find("postgres.exe")){
+	process.kill("postgres.exe")
+	winform.msgOk("pgsql停止成功",2000)
+	}else{
+	winform.msgOk("应用未运行",2000)
+	}
+}
+
+winform.pq_start.oncommand = function(id,event){
+	if(process.findId("postgres.exe")){
+		winform.msgOk("应用已经运行中",2000)
+	
+	}else{
+	process.execute(app.appdir+"app.pgsql.bat",'','',0x0/*_SW_HIDE*/)
+	winform.pq_start.text="pgsql运行中"
+	winform.msgOk("应用运行成功",2000)	
+	}
+}
+
+winform.sync_start.oncommand = function(id,event){
+	if(process.findId("syncthing.exe")){
+		winform.msgOk("应用已经运行中",2000)
+	
+	}else{
+	process.execute(app.appdir+"app.sync.bat",'','',0x0/*_SW_HIDE*/)
+	winform.sync_start.text="syncthing运行中"
+	winform.msgOk("应用运行成功",2000)	
+	}
+}
+
+winform.sync_stop.oncommand = function(id,event){
+	if(process.find("syncthing.exe")){
+	process.kill("syncthing.exe")
+	winform.msgOk("syncthing停止成功",2000)
+	}else{
+	winform.msgOk("应用未运行",2000)
+	}
+}
+
+winform.sync_home.oncommand = function(id,event){
+	process.openUrl("http://127.0.0.1:8384")
+}
+
+winform.web_dir.oncommand = function(id,event){
+	process.explore(app.appdir+"www")
+}
+if(cfg.user.gver){
+	gver = cfg.user.gver
+	files, dirs = fsys.list("C:\app\go\version");
+	for _,ii in table.eachIndex(gver) {
+		if(table.count(dirs) > 0){
+	if(table.find(dirs,ii) !=null){
+	ii = "✓"+ii
+	}
+	}
+	winform.glist.add(ii)
+	}
+	winform.glist.selIndex=1;
+}
+
+winform.button.oncommand = function(id,event){
+	
+	var gurl = cfg.user.gurl;//go下载地址
+	var html = htmlParser();
+	html.loadWeb(gurl)
+	//html.load("1.html")
+doc = html.getDoc();//获取源码
+	div = doc.SelectNodes("//div[contains(@class, 'toggleVisible') or contains(@class, 'toggle')]")
+	var verarr = {}
+		for(i=1;30;1){
+			id = string.trimleft(div[i].Id,'go')
+			ss,_=string.indexOf(id,'rc')
+		
+if(ss==null){
+		table.insert(verarr,id)
+		}
+			
+			
+	
+	}
+	var   newver=app.verrank(verarr);
+	//debug.log.dump(newver)
+	cfg.user.gver = newver
+	winform.glist.clear();
+for _,ii in table.eachIndex(newver) {
+	winform.glist.add(ii)
+	}
+	winform.glist.selIndex=1;
+	
+}
+//下载go
+winform.button2.oncommand = function(id,event){
+	var ver = winform.glist.text;
+	ver=string.replace(ver,"✓","")
+	if(ver==""){
+	winform.msgInfo("版本不能为空",2000)
+		return false;
+	}
+	if(ver==null){return false;}
+	var url = cfg.user.gurl+"/golang/go"+ver+".windows-amd64.zip";
+	var name = "C:\app\go\download\go"+ver+".windows-amd64.zip";
+	//if(io.exist(name)){win.msgbox("压缩包已存在,无需下载!");return;}
+	var downBox = inet.downBox(winform,url+"正在下载中...");
+
+var ok = downBox.test(url,name)
+	if(ok){
+	winform.msgInfo("文件已存在无需下载！");
+	return
+	}else{
+		if(downBox.download(url ,name) ){
+	 	winform.msgInfo("下载完成");	
+	 }
+	}
+	
+
+}
+
+winform.button3.oncommand = function(id,event){
+	var ver = winform.glist.text;
+	ver=string.replace(ver,"✓","")
+	//var gver = cfg.user.gver;
+	var verdir = "C:\app\go\version\"+ver;//
+	if(io.exist(verdir)){//目录存在
+	fsys.delete("C:\app\go\go")
+	fsys.junction.create("C:\app\go\go",verdir+"\go");
+	winform.msgOk("设置成功",2000)
+	}else{//不存在解压
+	
+	var filename = "C:\app\go\download\go"+ver+".windows-amd64.zip";
+	if(! io.exist(filename)){
+	winform.msgInfo("压缩包不存在,请先下载!",2000);	return;
+	}
+	var  ok,err = zlib.unzip.extract(filename,"C:\app\go\version\"+ver);
+	if(ok){
+		fsys.delete("C:\app\go\go")
+		fsys.junction.create("C:\app\go\go",verdir+"\go");
+	winform.msgOk("解压并设置成功",2000)
+	}
+	}
+	
+}
+
+winform.button4.oncommand = function(id,event){
+	if(winform.msgAsk("是否删除压缩包")){
+	var ver = winform.glist.text;
+	ver=string.replace(ver,"✓","")
+	var filename = "C:\app\go\download\go"+ver+".windows-amd64.zip";
+	if(! io.exist(filename)){
+	winform.msgInfo("压缩包不存在,请先下载!",2000);	return;
+	}
+	if(fsys.deleteEx(filename)){
+		fsys.deleteEx(filename+".dow!oad")
+	winform.msgOk("删除成功",2000);return;
+	}else{
+	winform.msgErr("删除失败",2000);
+	}
+	
+	}else{
+	winform.msgInfo("取消",2000)
+	}
+}
+
+winform.button18.oncommand = function(id,event){
+	process.explore("C:\app\go\")
+}
+
+winform.button19.oncommand = function(id,event){
+	process.explore("C:\app\python")
+}
+
+winform.button20.oncommand = function(id,event){
+	process.explore("C:\app\nodejs")
+}
+
+winform.button21.oncommand = function(id,event){
+	process.explore("C:\app\flutter")
+}
+//获取py版本
+if(cfg.user.pver){
+	pver = cfg.user.pver
+	files, dirs = fsys.list("C:\app\python\version");
+	for _,ii in table.eachIndex(pver) {
+		if(table.count(dirs) > 0){
+	if(table.find(dirs,ii) !=null){
+	ii = "✓"+ii
+	}
+	}
+	winform.plist.add(ii)
+	}
+	winform.plist.selIndex=1;
+}
+winform.button5.oncommand = function(id,event){
+	var purl = cfg.user.purl;
+	var html = htmlParser();
+	html.loadWeb(purl)
+	//html.save("py.html")
+	//html.load("py.html")
+doc = html.getDoc();//获取源码
+a = doc.SelectNodes("//a")
+
+var verarr = {}
+		for(i=1;a.Count;1){
+			id = string.trimright(a[i].InnerText,'/')
+			if(app.isver(id)){
+			table.insert(verarr,id)
+			}
+	}
+	//verarr = app.table_unique(verarr)
+	app.verrank(verarr);
+	newarr = table.slice(verarr,1,30)
+	
+	cfg.user.pver = newarr
+	winform.plist.clear();
+for _,ii in table.eachIndex(newarr) {
+	winform.plist.add(ii)
+	}
+	winform.plist.selIndex=1;
+}
+//检测编程环境
+winform.button17.oncommand = function(id,event){
+	var prcs = process.popen.cmd(`
+	go version
+	python --version
+	echo node && node -v
+	dart --version
+	flutter --version
+	`)
+	prcs.codepage = 65001
+	str = prcs.readAll()
+	//str=string.fromto(str,936,65001);
+	winform.msgInfo(str)
+}
+
+winform.button7.oncommand = function(id,event){
+	var ver = winform.plist.text;
+	ver=string.replace(ver,"✓","")
+	var verdir = "C:\app\python\version\"+ver;//
+	if(io.exist(verdir)){//目录存在
+	fsys.delete("C:\app\python\python")
+	fsys.junction.create("C:\app\python\python",verdir+"");
+	winform.msgOk("设置成功",2000)
+	}else{//不存在解压
+	
+	var filename = "C:\app\python\download\"+ver+".zip";
+	if(! io.exist(filename)){
+	winform.msgInfo("压缩包不存在,请先下载!",2000);	return;
+	}
+	var  ok,err = zlib.unzip.extract(filename,"C:\app\python\version\"+ver);
+	if(ok){
+		fsys.delete("C:\app\python\python")
+		fsys.junction.create("C:\app\python\python",verdir+"");
+	winform.msgOk("解压并设置成功",2000)
+	}
+	}
+}
+//下载py
+winform.button6.oncommand = function(id,event){
+	var ver = winform.plist.text;
+	ver=string.replace(ver,"✓","")
+	if(ver==""){
+	winform.msgInfo("版本不能为空",2000)
+		return false;
+	}
+	if(ver==null){return false;}
+	var url = "https://registry.npmmirror.com/-/binary/python/"+ver+"/python-"+ver+"-embed-amd64.zip";
+	var name = "C:\app\python\download\"+ver+".zip";
+
+	var downBox = inet.downBox(winform,url+"正在下载中...");
+
+var ok = downBox.test(url,name)
+	if(ok){
+	winform.msgInfo("文件已存在无需下载！");
+	return
+	}else{
+		if(downBox.download(url ,name) ){
+	 	winform.msgInfo("下载完成");	
+	 }
+	}
+}
+
+winform.button8.oncommand = function(id,event){
+	if(winform.msgAsk("是否删除压缩包")){
+	var ver = winform.plist.text;
+	ver=string.replace(ver,"✓","")
+	var name = "C:\app\python\download\"+ver+".zip";
+	if(!io.exist(name)){
+	winform.msgInfo("压缩包不存在,请先下载!",2000);	return;
+	}
+	if(fsys.deleteEx(name)){
+		fsys.deleteEx(name+".dow!oad")
+	winform.msgOk("删除成功",2000);return;
+	}
+	}
+}
+//nodeJs 版本获取
+if(cfg.user.nver){
+	nver = cfg.user.nver
+	files, dirs = fsys.list("C:\app\nodejs\version");
+	
+	for _,ii in table.eachIndex(nver) {
+		if(table.count(dirs) > 0){
+	if(table.find(dirs,ii) !=null){
+	ii = "✓"+ii
+	}
+	}
+		
+	winform.nlist.add(ii)
+	}
+	winform.nlist.selIndex=1;
+}
+winform.button9.oncommand = function(id,event){
+	var nurl = cfg.user.nurl+"/index.json";
+	var html = htmlParser();
+	html.loadWeb(nurl)
+	//html.save("node.json")
+	//var doc = string.load("node.json")
+	doc = html.getDoc()
+	var t  = web.json.parse(doc.OuterHtml);
+var verarr = {}
+		for _,v in t{
+			id = string.trimleft(v["version"],'v')
+			if(app.isver(id)){
+			table.insert(verarr,id)
+			}
+	}
+app.verrank(verarr);
+	newarr = table.slice(verarr,1,30)
+
+	cfg.user.nver = newarr
+	winform.nlist.clear();
+for _,ii in table.eachIndex(newarr) {
+	winform.nlist.add(ii)
+	}
+	winform.nlist.selIndex=1;
+
+}
+//flutter版本
+if(cfg.user.fver){
+	fver = cfg.user.fver
+	files, dirs = fsys.list("C:\app\flutter\version");
+	for _,ii in table.eachIndex(fver) {
+		if(table.count(dirs) > 0){
+	if(table.find(dirs,ii) !=null){
+	ii = "✓"+ii
+	}
+	}
+	winform.flist.add(ii)
+	}
+	winform.flist.selIndex=1;
+}
+winform.button13.oncommand = function(id,event){
+	var furl = cfg.user.furl+"/releases_windows.json";
+	var html = htmlParser();
+	html.loadWeb(furl)
+	//html.save("flutter.json")
+	//var doc = string.load("flutter.json")
+	doc = html.getDoc()
+	var t  = web.json.parse(doc.OuterHtml);
+	t = t["releases"]
+var verarr = {}
+		for _,v in t{
+			id = string.trimleft(v["version"],'v')
+			if(app.isver(id)){
+			table.insert(verarr,id)
+			}
+	}
+	app.verrank(verarr);
+	newarr = table.slice(verarr,1,30)
+
+	cfg.user.fver = newarr
+	winform.flist.clear();
+for _,ii in table.eachIndex(newarr) {
+	winform.flist.add(ii)
+	}
+	winform.flist.selIndex=1;
+	
+}
+//下载node
+winform.button10.oncommand = function(id,event){
+	var ver = winform.nlist.text;
+	ver=string.replace(ver,"✓","")
+	if(ver==""){
+	winform.msgInfo("版本不能为空",2000)
+		return false;
+	}
+	if(ver==null){return false;}
+	var url = "https://nodejs.org/download/release/v"+ver+"/node-v"+ver+"-win-x64.zip";
+	var name = "C:\app\nodejs\download\"+ver+".zip";
+
+	var downBox = inet.downBox(winform,url+"正在下载中...");
+
+var ok = downBox.test(url,name)
+	if(ok){
+	winform.msgInfo("文件已存在无需下载！");
+	return
+	}else{
+		if(downBox.download(url ,name) ){
+	 	winform.msgInfo("下载完成");	
+	 }
+	}
+}
+//下载flutter
+winform.button14.oncommand = function(id,event){
+	var ver = winform.flist.text;
+	ver=string.replace(ver,"✓","")
+	if(ver==""){
+	winform.msgInfo("版本不能为空",2000)
+		return false;
+	}
+	if(ver==null){return false;}
+	var url = "https://storage.flutter-io.cn/flutter_infra_release/releases/stable/windows/flutter_windows_"+ver+"-stable.zip";
+	var name = "C:\app\flutter\download\"+ver+".zip";
+
+	var downBox = inet.downBox(winform,url+"正在下载中...");
+
+var ok = downBox.test(url,name)
+	if(ok){
+	winform.msgInfo("文件已存在无需下载！");
+	return
+	}else{
+		if(downBox.download(url ,name) ){
+	 	winform.msgInfo("下载完成");	
+	 }
+	}
+}
+//设置node
+winform.button11.oncommand = function(id,event){
+	var ver = winform.nlist.text;
+	ver=string.replace(ver,"✓","")
+	var verdir = "C:\app\nodejs\version\"+ver;//
+	if(io.exist(verdir)){//目录存在
+	fsys.delete("C:\app\nodejs\nodejs")
+	fsys.junction.create("C:\app\nodejs\nodejs",verdir+"\node-v"+ver+"-win-x64");
+	winform.msgOk("设置成功",2000)
+	}else{//不存在解压
+	
+	var filename = "C:\app\nodejs\download\"+ver+".zip";
+	if(! io.exist(filename)){
+	winform.msgInfo("压缩包不存在,请先下载!",2000);	return;
+	}
+	var  ok,err = zlib.unzip.extract(filename,"C:\app\nodejs\version\"+ver);
+	if(ok){
+		fsys.delete("C:\app\nodejs\nodejs")
+		fsys.junction.create("C:\app\nodejs\nodejs",verdir+"\node-v"+ver+"-win-x64");
+	winform.msgOk("解压并设置成功",2000)
+	}
+	}
+}
+//flutter设置
+winform.button15.oncommand = function(id,event){
+	var ver = winform.flist.text;
+	ver=string.replace(ver,"✓","")
+	var verdir = "C:\app\flutter\version\"+ver;//
+	if(io.exist(verdir)){//目录存在
+	fsys.delete("C:\app\flutter\flutter")
+	fsys.junction.create("C:\app\flutter\flutter",verdir+"\flutter");
+	winform.msgOk("设置成功",2000)
+	}else{//不存在解压
+	
+	var filename = "C:\app\flutter\download\"+ver+".zip";
+	if(! io.exist(filename)){
+	winform.msgInfo("压缩包不存在,请先下载!",2000);	return;
+	}
+	var  ok,err = zlib.unzip.extract(filename,"C:\app\flutter\version\"+ver);
+	if(ok){
+		fsys.delete("C:\app\flutter\flutter")
+		fsys.junction.create("C:\app\flutter\flutter",verdir+"\flutter");
+	winform.msgOk("解压并设置成功",2000)
+	}
+	}
+}
+
+winform.button12.oncommand = function(id,event){
+	if(winform.msgAsk("是否删除压缩包")){
+	var ver = winform.nlist.text;
+	ver=string.replace(ver,"✓","")
+	var filename = "C:\app\nodejs\download\"+ver+".zip";
+	if(! io.exist(filename)){
+	winform.msgInfo("压缩包不存在,请先下载!",2000);	return;
+	}
+	if(fsys.deleteEx(filename)){
+		fsys.deleteEx(filename+".dow!oad")
+	winform.msgOk("删除成功",2000);return;
+	}else{
+	winform.msgErr("删除失败",2000);
+	}
+	
+	}else{
+	winform.msgInfo("取消",2000)
+	}
+}
+
+winform.button16.oncommand = function(id,event){
+	if(winform.msgAsk("是否删除压缩包")){
+	var ver = winform.flist.text;
+	ver=string.replace(ver,"✓","")
+	var filename = "C:\app\flutter\download\"+ver+".zip";
+	if(! io.exist(filename)){
+	winform.msgInfo("压缩包不存在,请先下载!",2000);	return;
+	}
+	if(fsys.deleteEx(filename)){
+		fsys.deleteEx(filename+".dow!oad")
+	winform.msgOk("删除成功",2000);return;
+	}else{
+	winform.msgErr("删除失败",2000);
+	}
+	
+	}else{
+	winform.msgInfo("取消",2000)
+	}
+}
+
+winform.button22.oncommand = function(id,event){
+	process.openUrl("https://127.0.0.1:9003/redis")
+}
+
+winform.show();
+win.loopMessage();
+return winform;

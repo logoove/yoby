@@ -1,0 +1,480 @@
+import fonts.fontAwesome;
+import win.ui;
+import win.ui.atom;
+import process.popen;
+import inet.downBox;//下载
+import wsock;
+import fsys.dlg;
+/*DSG{{*/
+var winform = win.form(text="首页";right=984;bottom=589;bgcolor=16777215)
+winform.add(
+button={cls="button";text="加速下载";left=163;top=8;right=282;bottom=49;z=23};
+button10={cls="button";text="添加管理员菜单";left=423;top=122;right=542;bottom=163;z=18};
+button11={cls="button";text="base64转换图片";left=693;top=123;right=812;bottom=164;z=19};
+button12={cls="button";text="图片转换Base64";left=559;top=123;right=678;bottom=164;z=20};
+button13={cls="button";text="清理垃圾";left=163;top=123;right=282;bottom=164;z=21};
+button14={cls="button";text="生成ICO图标";left=830;top=122;right=949;bottom=163;z=22};
+button15={cls="button";text="下载";left=298;top=179;right=417;bottom=220;z=39};
+button16={cls="button";text="ping网址";left=159;top=180;right=278;bottom=221;z=27};
+button17={cls="button";text="显示WIFI密码";left=827;top=179;right=946;bottom=220;z=28};
+button18={cls="button";text="webp转png|jpg";left=23;top=239;right=142;bottom=280;z=29};
+button2={cls="button";text="字符串转二维码";left=296;top=239;right=415;bottom=280;z=24};
+button23={cls="button";text="识别二维码";left=428;top=240;right=547;bottom=281;z=31};
+button3={cls="button";text="TPM检测";left=32;top=6;right=151;bottom=47;z=25};
+button4={cls="button";text="复制";left=899;top=299;right=983;bottom=331;z=36};
+button5={cls="button";text="jpg|png|bmp互转";left=160;top=241;right=279;bottom=282;z=37};
+button6={cls="button";text="颜色值";left=687;top=179;right=806;bottom=220;z=26};
+button7={cls="button";text="清空";left=901;top=349;right=985;bottom=381;z=38};
+button8={cls="button";text="注册表";left=29;top=124;right=148;bottom=165;z=16};
+button9={cls="button";text="禁用UAC";left=291;top=121;right=410;bottom=162;z=17};
+edit={cls="edit";left=24;top=298;right=940;bottom=582;edge=1;hscroll=1;multiline=1;vscroll=1;z=32};
+lbTip={cls="static";left=63;top=523;right=695;bottom=572;db=1;dl=1;dr=1;transparent=1;z=1};
+nets={cls="plus";text="网络已连接";left=690;top=238;right=819;bottom=273;align="left";color=32768;disabled=1;font=LOGFONT(weight=700);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=9}};iconText='\uF205';textPadding={left=49};z=33};
+netst={cls="static";left=835;top=244;right=941;bottom=268;transparent=1;z=34};
+sj={cls="static";left=786;top=269;right=938;bottom=290;font=LOGFONT(weight=700);transparent=1;z=35};
+t_com={cls="button";text="计算机管理";left=561;top=6;right=680;bottom=47;z=6};
+t_con={cls="button";text="控制面板";left=832;top=7;right=951;bottom=48;z=8};
+t_d={cls="button";text="设备管理器";left=425;top=7;right=544;bottom=48;z=4};
+t_direcx={cls="button";text="direcx检查";left=293;top=8;right=412;bottom=49;z=7};
+t_dns={cls="button";text="刷新DNS";left=695;top=63;right=814;bottom=104;z=12};
+t_ip={cls="button";text="查看IP";left=831;top=62;right=950;bottom=103;z=15};
+t_ji={cls="button";text="计算器";left=163;top=62;right=282;bottom=103;z=14};
+t_luyou={cls="button";text="打开路由器地址";left=556;top=180;right=675;bottom=221;z=30};
+t_net={cls="button";text="网络连接";left=422;top=179;right=541;bottom=220;z=2};
+t_pid={cls="button";text="PID和端口显示";left=560;top=61;right=679;bottom=102;z=13};
+t_server={cls="button";text="本地服务";left=695;top=8;right=814;bottom=49;z=5};
+t_win={cls="button";text="windows激活检查";left=25;top=179;right=144;bottom=220;z=3};
+t_xiufu={cls="button";text="修复网络";left=424;top=62;right=543;bottom=103;z=11};
+t_xuni={cls="button";text="虚拟键盘";left=292;top=60;right=411;bottom=101;z=10};
+t_zu={cls="button";text="组策略";left=31;top=63;right=150;bottom=104;z=9}
+)
+/*}}*/
+
+var atom,hwnd/*冲突窗口的句柄,该函数会自动激活此窗口*/ = winform.atom("65700114-DC2C-4747-938B-69B9092EF09A");
+if(!atom){
+	/*为窗口设置原子值可以避免一个程序重复运行多个实例*/
+	win.quitMessage();	return;
+}
+
+winform.t_net.oncommand = function(id,event){//网络连接
+	//process.explore("shell:::{7007ACC7-3202-11D1-AAD2-00805FC1270E}");
+	process.popen.cmd("ncpa.cpl")
+}
+
+winform.t_direcx.oncommand = function(id,event){//direcx检测
+	process.shell("dxdiag")
+}
+
+winform.t_win.oncommand = function(id,event){//检测激活
+	process.popen.cmd("slmgr.vbs -xpr")
+}
+
+winform.t_d.oncommand = function(id,event){//设备管理器
+	process.popen.cmd("devmgmt.msc")
+}
+
+winform.t_com.oncommand = function(id,event){//计算机管理
+	process.popen.cmd("compmgmt.msc")
+}
+
+winform.t_server.oncommand = function(id,event){//本地服务
+	process.popen.cmd("services.msc")
+}
+
+winform.t_con.oncommand = function(id,event){//控制面板
+	process.popen.cmd("control")
+}
+
+winform.t_zu.oncommand = function(id,event){//组策略
+	process.popen.cmd("gpedit.msc")
+}
+
+winform.t_xiufu.oncommand = function(id,event){//修复网络
+	var prcs = process.popen.cmd("netsh winsock reset")
+	win.msgbox(prcs.readAll(),"提示")
+}
+
+winform.t_xuni.oncommand = function(id,event){//虚拟键盘
+process.execute(app.appdir+"/res/osk.exe")
+}
+
+winform.t_ji.oncommand = function(id,event){//计算器
+	process.popen.cmd("calc")
+}
+
+winform.t_luyou.oncommand = function(id,event){
+	process.openUrl("http://192.168.1.1/")
+}
+
+winform.t_pid.oncommand = function(id,event){
+	var prcs = process.popen("netstat", "-abno -p TCP")
+	winform.edit.text = '';
+	prcs.logResponse(winform.edit);
+}
+
+winform.t_dns.oncommand = function(id,event){
+	var prcs = process.popen.cmd("ipconfig/flushdns")
+	win.msgbox(prcs.readAll(),"提示")
+}
+
+winform.t_ip.oncommand = function(id,event){
+	var prcs = process.popen.cmd("ipconfig/all")
+	winform.edit.text = '';
+	prcs.logResponse(winform.edit);
+}
+
+winform.button8.oncommand = function(id,event){
+	process.popen.cmd("regedit")
+}
+
+winform.button13.oncommand = function(id,event){
+			var prcs = process.popen.cmd(`
+echo 开始清理垃圾......　　　　
+del /f /s /q %systemdrive%\*.tmp　　　　
+del /f /s /q %systemdrive%\*._mp　　　　
+del /f /s /q %systemdrive%\*.log　　　　
+del /f /s /q %systemdrive%\*.gid　　　　
+del /f /s /q %systemdrive%\*.chk　　　　
+del /f /s /q %systemdrive%\*.old　　　　
+del /f /s /q %systemdrive%\recycled\*.*　　　　
+del /f /s /q %windir%\*.bak　　　　
+del /f /s /q %windir%\prefetch\*.*　　　　
+rd /s /q %windir%\temp & md %windir%\temp　　　　
+del /f /q %userprofile%\cookies\*.*　　　　
+del /f /q %userprofile%\recent\*.*　　　　
+del /f /s /q "%userprofile%\Local Settings\Temporary Internet Files\*.*"　　　　
+del /f /s /q "%userprofile%\Local Settings\Temp\*.*"　　　　
+del /f /s /q "%userprofile%\recent\*.*"　　　　
+echo 清理完成,关闭!
+`)
+winform.edit.text = '';
+	prcs.logResponse(winform.edit);	
+}
+
+winform.button9.oncommand = function(id,event){
+	import win.reg;
+	var reg = win.reg("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System")
+	var is =reg.queryValue("EnableLUA")
+	if(is==0){	
+	win.msgboxTimeout("UAC已关闭，无需重复关闭！")
+	}else{
+	reg.setDwValue("ConsentPromptBehaviorAdmin",0)
+	reg.setDwValue("EnableLUA",0)
+	reg.setDwValue("PromptOnSecureDesktop",0)
+	//process.execute("regedit.exe") 2 1 1高 5 1 0低 0 0 0关闭UAC
+	win.msgboxTimeout("关闭UAC成功")
+	}
+	reg.close();
+	
+}
+
+winform.button.oncommand = function(id,event){
+	//process.openUrl("http://192.168.1.1/")
+	//https://7-zip.org/a/7z2301-x64.exe
+	var url = app.inputx("请输入下载地址,github下载会直接使用加速下载")
+	if(url==""){
+	win.msgboxTimeout("URL不能为空")
+		return false;
+	}
+	if(url==null){return false;}
+	if( ! inet.url.is(url,0x0/*_URLIS_URL*/) ){
+        win.msgboxTimeout("不是URL")
+		return false;
+    }
+    var spurl = inet.url.split(url)
+   if(spurl.host=="github.com"){
+   url="https://gh-proxy.com/"+url
+   }
+	var downBox = inet.downBox(winform,"正在下载中...",true );
+	var path=fsys.getSpecial(_CSIDL);//桌面
+	var iopath = io.splitpath(url)
+	var name=path++"\"++iopath.name++iopath.ext;
+	if(io.exist(name)){//文件存在
+	import fsys.fileInfo;
+	var size = fsys.fileInfo(name).size
+	var http = inet.http();
+	var size1=0;
+http.afterSend = function(statusCode,contentLength){
+	http.readHeader();
+    size1=contentLength;
+}
+http.get(url)
+if(tonumber(size)==tonumber(size1)){//成功下载
+win.msgboxTimeout("文件已存在无需下载！")
+}else{//断点续传
+if( downBox.download(url ,name) ){
+		fsys.delete(name ++ ".dow!oad");
+	 	win.msgboxTimeout("断点续传,下载完成!");
+	 	
+	 }
+}
+}else{//文件不存在直接下载
+if( downBox.download(url ,name) ){
+		fsys.delete(name ++ ".dow!oad");
+	 	win.msgboxTimeout("下载完成");
+	 	
+	 }
+}		
+	
+}
+
+winform.button10.oncommand = function(id,event){
+	process.execute(app.appdir+"/res/gl.reg" )
+}
+
+//网络连接
+import wsock.networkChange;
+wsock.networkChange.wait(winform).onNetworkChanged = function(){	
+	//网络状态变更触发此回调
+	winform.nets.checked = wsock.tcp.client.test();
+winform.netst.text =""
+	winform.netst.onNetworkChanged();
+}
+import inet.ras;
+import win.debounce;
+winform.netst.onNetworkChanged = win.debounce( function(){
+	winform.netst.text ="";
+	var wan,lan = inet.ras.isAlive(); 
+	if( lan ) winform.netst.text = "局域网已连接";
+	else if( wan ) winform.netst.text = "广网络已连接";
+	else winform.netst.text = "网络已断开";	
+},1000);
+winform.nets.skin({
+	text="网络已断开"; 
+	color = {
+		default = 0xFFFF0000; 
+		disabled = 0xFFFF0000;  
+	};
+	
+	checked = {
+		text = "网络已连接";
+		color = {
+			default = 0xFF008000; 
+		};	
+	}
+});
+winform.onNetworkChanged();
+//-----------------------网卡网络结束----------------------
+
+winform.button17.oncommand = function(id,event){
+import sys.wlan;
+import crypt.protectData;
+import thread.token; 
+winform.edit.text = '';
+thread.token.impersonate("winlogon.exe",function(){
+	var wlan = sys.wlan();
+	for name,guid,description,flags,access,xmlProfile in wlan.eachProfile(){	
+		var km = xmlProfile.queryEle( 
+			tagName = "keyMaterial"
+		);		
+		var password = crypt.protectData.decrypt(km.innerText())
+		winform.edit.text+="    WIFI: "+name+"  密码: "+tostring(password)+"        "
+	}
+	return
+})
+}
+
+winform.button23.oncommand = function(id,event){
+	var path = fsys.dlg.open("图像文件|*.jpg;*.jpeg;*.bmp;*.gif;*.png;||",,,winform)
+	if(path){
+		import zbar;
+		var scanner = zbar.scanner();
+scanner.config('qrcode.enable');
+	var bmp = gdip.bitmap(path)
+	winform.edit.text = '';
+	if(bmp){
+		scanner.scanBitmap(bmp,function(typeName,data){
+			winform.edit.text = data;
+		})	
+	}
+	}
+}
+winform.button16.oncommand = function(id,event){
+	var url = app.inputx("请输入URL,包含完整的http://或https://")
+	if(url==""){
+	win.msgboxTimeout("URL不能为空")
+		return false;
+	}
+	if(url==null){return false;}
+	if( ! inet.url.is(url,0x0/*_URLIS_URL*/) ){
+        win.msgboxTimeout("不是URL")
+		return false;
+    }
+    url = inet.url.split(url)
+    host = url.host
+    var prcs = process.popen.cmd("ping "++host)
+    winform.edit.text=""
+   winform.edit.text = "域名IP: "+wsock.getIp(host)+"    
+ "+"                                                           "  
++prcs.readAll()
+}
+
+winform.button3.oncommand = function(id,event){
+	import sys.tpmInfo;
+var tpmInfo = sys.tpmInfo.get();
+winform.edit.text=""
+var str=""
+if(tpmInfo){
+	str+=(tpmInfo.enabled)?"TPM已启用;    ":"TPM未启用;    ";
+	str+=(tpmInfo.activated)?"TPM已激活;    ":"TPM未激活;    ";
+	str+="版本："+tpmInfo.version
+	
+}else{
+str+="不支持TPM,将不能安装windows11"
+}
+winform.edit.text=str
+}
+
+winform.button2.oncommand = function(id,event){
+	var url = app.inputx("请输入字符串或网址")
+	if(url==""){
+	win.msgboxTimeout("不能为空")
+		return false;
+	}
+	if(url==null){return false;}
+	import qrencode.bitmap;
+	var qrBmp = qrencode.bitmap(url);
+	var data = qrBmp.copyBitmap(400)
+var path = fsys.dlg.save("*.jpg|*.jpg|*.jpeg|*.jpeg|*.png|*.png||",,,winform)
+
+if(path){
+data.save(path)
+}
+
+
+}
+
+winform.button4.oncommand = function(id,event){
+	import win.clip;
+	if(winform.edit.text!=""){
+win.clip.write(winform.edit.text);
+win.msgboxTimeout("复制成功","剪切板")
+}
+}
+
+winform.button6.oncommand = function(id,event){
+	import win.ui.ctrl.pick;
+	win.ui.ctrl.pick().doModal();
+	
+}
+//png jpg bmp互相转换
+winform.button5.oncommand = function(id,event){
+	import gdip.image;
+	var path = fsys.dlg.open("图像文件|*.bmp;*.gif;*.png;*.jpg;*.jpeg;*.tif;*.tiff||",,,winform)
+	if(path){
+	
+		img = gdip.bitmap(path);
+		var path = fsys.dlg.save("*.jpg;|*.jpg;|*.jpeg;|*.jpeg;|*.png|*.png|*.bmp|*.bmp||",,,winform)
+		if(path){
+		img.save(path);
+		}
+	}
+}
+//webp转换成png或jpg
+winform.button18.oncommand = function(id,event){
+	import gdip.image;
+	var dll = raw.loadDll( $"/res/libwebp.dll",,"cdecl" );
+var path = fsys.dlg.open("图像文件|*.webp||",,,winform)
+	if(path){
+	WebPData = ..string.load(path);
+data,w,h = dll.WebPDecodeBGRA(WebPData,#WebPData, {int w}, {int h})
+if !data return ;
+w = w.w;h = h.h;
+var bmp =gdip.bitmap(w,h,,topointer(data),(w*32+31)>>5<<2);
+if !bmp return dll.WebPFree(data); 
+bmp.saveToBuffer("*.png;*.jpg");
+var path = fsys.dlg.save("*.jpg|*.jpg|*.jpeg|*.jpeg|*.png|*.png||",,,winform)
+if(path){bmp.save(path);}
+bmp.dispose();
+dll.WebPFree(data);
+	}
+}
+import crypt.bin;
+winform.button12.oncommand = function(id,event){
+	var path = fsys.dlg.open("图像文件|*.jpg;*.jpeg;*.bmp;*.gif;*.png;", , , winform)
+    if (path) {       
+        var stream = ..string.load(path);       
+        var strBase64 = crypt.bin.encodeBase64( stream );
+        winform.edit.text = strBase64;
+    }
+}
+
+winform.button7.oncommand = function(id,event){
+	winform.edit.text ="";
+}
+
+winform.button11.oncommand = function(id,event){
+	if (#winform.edit.text){        
+        var bmpBase64 = crypt.bin.decodeBase64( winform.edit.text );
+        img = gdip.bitmap(bmpBase64);
+		var path = fsys.dlg.save("*.jpg|*.jpg|*.jpeg|*.jpeg|*.png|*.png||",,,winform)
+		img.save(path);
+        
+    }
+}
+
+winform.button14.oncommand = function(id,event){
+	import gdip.image;
+	import godking.paint;
+	var path = fsys.dlg.open("图像文件|*.jpg;*.jpeg;*.bmp;*.gif;*.png;", , , winform)
+	if(path){
+		var p = godking.paint.fromBitmap(path);
+		var w,h = p.width,p.height;
+		p.close();
+		if w>128 or h>128 return win.msgboxErr("图片长宽不能大于128像素");
+	var ico = godking.paint.icon()
+		ico.addImage(path)
+		var path = fsys.dlg.save("*.ico|*.ico||",,,winform)
+		if(path){
+		..string.save(path,ico.getIcon(128))
+		}
+	}
+	
+}
+
+winform.button15.oncommand = function(id,event){
+	var url = app.inputx("请输入下载地址.")
+	if(url==""){
+	win.msgboxTimeout("URL不能为空")
+		return false;
+	}
+	if(url==null){return false;}
+	if( ! inet.url.is(url,0x0/*_URLIS_URL*/) ){
+        win.msgboxTimeout("不是URL")
+		return false;
+    }
+	var downBox = inet.downBox(winform,"正在下载中...",true );
+	var path=fsys.getSpecial(_CSIDL);//桌面
+	var iopath = io.splitpath(url)
+	var name=path++"\"++iopath.name++iopath.ext;
+	if(io.exist(name)){//文件存在
+	import fsys.fileInfo;
+	var size = fsys.fileInfo(name).size
+	var http = inet.http();
+	var size1=0;
+http.afterSend = function(statusCode,contentLength){
+	http.readHeader();
+    size1=contentLength;
+}
+http.get(url)
+if(tonumber(size)==tonumber(size1)){//成功下载
+win.msgboxTimeout("文件已存在无需下载！")
+}else{//断点续传
+if( downBox.download(url ,name) ){
+		fsys.delete(name ++ ".dow!oad");
+	 	win.msgboxTimeout("断点续传,下载完成!");
+	 	
+	 }
+}
+}else{//文件不存在直接下载
+if( downBox.download(url ,name) ){
+		fsys.delete(name ++ ".dow!oad");
+	 	win.msgboxTimeout("下载完成");
+	 	
+	 }
+}
+}
+
+winform.show();
+win.loopMessage();
+return winform;

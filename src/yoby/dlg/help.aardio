@@ -1,0 +1,24 @@
+import win.ui;
+import fonts.fontAwesome;
+/*DSG{{*/
+var winform = win.form(text="帮助";right=1040;bottom=607;bgcolor=16777215)
+winform.add(
+lnkWebSite={cls="plus";text="官方: https://yoby123.cn";left=12;top=7;right=220;bottom=43;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-16);iconColor=2960685;notify=1;textPadding={left=5};z=1};
+plus={cls="plus";text="版本: v1.0.1121";left=15;top=44;right=183;bottom=75;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-16);iconColor=2960685;notify=1;textPadding={left=5};z=3};
+plus2={cls="plus";text="作者:Yoby<logove@qq.com>";left=14;top=83;right=274;bottom=111;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-16);iconColor=2960685;notify=1;textPadding={left=5};z=4};
+plus3={cls="plus";text="copyright(C)2023";left=17;top=111;right=209;bottom=154;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-16);iconColor=2960685;notify=1;textPadding={left=5};z=5};
+static={cls="static";left=35;top=248;right=128;bottom=270;transparent=1;z=2}
+)
+/*}}*/
+
+import style;
+winform.lnkWebSite.skin(style.link)
+
+import process;
+winform.lnkWebSite.oncommand = function(id,event){
+	process.openUrl("https://gitee.com/yoby/yoby")
+}
+
+winform.show();
+win.loopMessage();
+return winform;

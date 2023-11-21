@@ -1,0 +1,469 @@
+import fonts.fontAwesome;
+import win.ui;
+import win.ui.menu;;
+import win.ui.atom;
+import win.util.tray;
+import win.ui.tabs;
+import preg;
+import debug.log;
+/*DSG{{*/
+mainForm = win.form(text="万能工具";right=1040;bottom=642;bgcolor=16777215;border="none";max=false)
+mainForm.add(
+caption={cls="bkplus";text="万能工具";left=35;top=12;right=160;bottom=30;dl=1;dt=1;font=LOGFONT(h=-16);z=5};
+custom={cls="custom";left=0;top=51;right=1040;bottom=644;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;z=1};
+logo={cls="bkplus";text='\uF118';left=6;top=9;right=35;bottom=34;color=16777215;dl=1;dt=1;font=LOGFONT(h=-18;name='FontAwesome');z=4};
+navFirst={cls="plus";text="主页";left=165;top=4;right=259;bottom=39;align="left";color=16777215;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-19;name='FontAwesome');padding={left=12;top=4}};iconText='\uF015';notify=1;paddingLeft=1;paddingRight=1;paddingTop=3;textPadding={left=39;bottom=1};x=0.5;y=0.2;z=3};
+navHelp={cls="plus";text="帮助";left=387;top=4;right=481;bottom=39;align="left";color=16777215;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-19;name='FontAwesome');padding={left=12;top=4}};iconText='\uF05A';notify=1;paddingLeft=1;paddingRight=1;paddingTop=3;textPadding={left=39;bottom=1};x=0.5;y=0.2;z=7};
+navSetting={cls="plus";text="服务器";left=266;top=5;right=372;bottom=38;align="left";color=16777215;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-19;name='FontAwesome');padding={left=12;top=4}};iconText='\uF233';notify=1;paddingLeft=1;paddingRight=1;paddingTop=3;textPadding={left=39;bottom=1};x=0.5;y=0.2;z=6};
+titleBar={cls="bkplus";left=0;top=-1;right=1042;bottom=40;bgcolor=6340871;dl=1;dr=1;dt=1;forecolor=6340871;z=2}
+)
+/*}}*/
+
+import fsys.config;
+cfg  = fsys.config("C:\app\caddy\res"); 
+cfg.user.gurl = "https://studygolang.com/dl";
+cfg.user.purl = "https://www.python.org/ftp/python";
+/* https://registry.npmmirror.com/binary.html?path=python*/
+cfg.user.nurl= "https://nodejs.org/download/release";
+cfg.user.furl=  "https://storage.flutter-io.cn/flutter_infra_release/releases";
+
+import win.ui.simpleWindow;
+win.ui.simpleWindow(mainForm);
+
+var tbs = win.ui.tabs(
+    mainForm.navFirst, mainForm.navSetting, mainForm.navHelp
+);
+tbs.skin({
+    foreground = {
+        active = 0xFFFFFFFF;
+        default = 0x00FFFFFF;
+        hover = 0x38FFFFFF
+    };
+    color = {
+        default = 0xFFFFFFFF;
+    };
+    checked = {
+        foreground = {
+            default = 0xFFFFFFFF;
+        };
+        color = {
+            default = 0xFF42A875;
+        };
+    }
+})
+
+tbs.loadForm(1, "\dlg\first.aardio");
+tbs.loadForm(2, "\dlg\setting.aardio");
+tbs.loadForm(3, "\dlg\help.aardio");
+
+math.randomize(); //随机种子
+var table_rand = function(tab, num = 1) {
+    if (type(tab) != type.table) { //如果不是数组就生成个数组
+        var bynum = tab;
+        tab = {}
+        for (i = 1; bynum; 1) {
+            table.push(tab, i);
+        }
+    }
+    var newtab = {};
+    if (!num) num = #tab; //如果没有指定随机取出数量就打乱整个数组
+    for (i = 1; num; 1) {
+        var index = math.random(1, #tab);
+        table.push(newtab, tab[index]);
+        table.remove(tab, index);
+    }
+    return newtab;
+}
+app = {
+    appdir = "C:\app\caddy\";
+    //输入对话框
+    inputx = function(tishi, title = "输入内容") {
+        import win.inputBox;
+        var inputBox = win.inputBox(mainForm)
+        inputBox.text = title
+        inputBox.info.text = tishi
+        var name = inputBox.doModal();
+        return name
+    };
+    //下载壁纸
+    downbizhi = function() {
+        var tm = time.now();
+        tm.format = "%Y%m"
+        var ym = tostring(tm);
+        path = "C:\app\caddy\wallpaper\" + ym; //路径
+        if (!io.exist(path)) {
+            fsys.createDir(path)
+        }
+        thread.invoke(
+            function(path) {
+                import web.rest.jsonLiteClient;
+                import fsys.fileInfo;
+                url = "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=8&mkt=en-US"
+                var http = web.rest.jsonLiteClient();
+                var api = http.api(url).get()["images"];
+                for k, v in api {
+                    var enddate = path + "\" + v["enddate"] + ".jpg";
+                    var urls = "https://cn.bing.com/" + v["url"];
+                    
+                    if (!io.exist(enddate)) {
+                        
+                        var data = http.api(urls);
+                        data.receiveFile(enddate).get();
+                    }
+                    else {
+                        if (tonumber(fsys.fileInfo(enddate).size) < 300000) {
+                            var data = http.api(urls);
+                            data.receiveFile(enddate).get();
+                        }
+                        
+                    }
+                    
+                }
+            }, path
+        )
+    };
+    //设置壁纸
+    setbizhi = function() {
+        import sys.wallpaper;
+        var tm = time.now();
+        tm.format = "%Y%m"
+        var ym = tostring(tm);
+        path = "C:\app\caddy\wallpaper\" + ym; //路径
+        var vv = "";
+        if (io.exist(path)) {
+            files, dirs = fsys.list(path);
+            if (table.count(files) > 0) {
+                var tabs = {};
+                for _, v in files {
+                    if (io.exist(v)) {
+                        table.push(tabs, v)
+                    }
+                }
+                vv = table_rand(tabs, 1)[1]; //随机取一个值
+            }
+            else {
+                vv = "C:\app\caddy\wallpaper\0.jpg";
+            }
+        }
+        else {
+            vv = "C:\app\caddy\wallpaper\0.jpg";
+        }
+        sys.wallpaper.setCurrent(vv);
+    }
+ //版本号排序
+verrank = function(verarr){
+table.sort(verarr,function(next){
+		var a=string.split(owner,".")
+		var b=string.split(next,".")
+		var len =math.max(#a,#b ) ; 		
+for(i=1;len;1){
+		n1 = tonumber(a[i] or 0)
+		n2 =  tonumber(b[i] or 0)
+		if n1>n2 return true;
+		if n1<n2 return false;
+		}
+
+	})
+	return verarr;
+}
+//是否版本号
+
+isver = function(str){
+var re = preg("/^([1-9]\d|[1-9])(\.([0-9]){1,2}){2}$/")
+return (re.test(str)==true)?true:false;
+}  
+table_unique = function(tab){
+    saveTab={};
+    for(k,v in tab){
+        saveTab[v]=1;
+    }
+   
+    newTab={}
+    for(k,v in saveTab){
+        table.push(newTab,k)
+    }   
+    return newTab;
+}
+
+};
+//全局热键
+var hkId; //截图
+mainForm.unreghotkey(hkId);
+hkId = mainForm.reghotkey(
+    function(id, mod, vk) {
+        process.execute(app.appdir + "/res/jt.exe")
+    }, 0x2 /*_MOD_CTRL*/ , 'Q'#
+);
+
+//创建计划任务
+import win.taskScheduler;
+var taskScheduler = win.taskScheduler(mainForm);
+var task1 = taskScheduler.create("每30分钟切换壁纸", function() {
+    app.setbizhi();
+})
+var task2 = taskScheduler.create("每12小时下载壁纸", function() {
+    app.downbizhi();
+})
+
+task1.interval = {
+    minute = 30; //每30分钟切换一次
+}
+task2.interval = {
+    hour = 12; //每12小时下载
+}
+
+//流量显示
+import dotNet;
+
+function seep(size) {
+    if (size < 1024 * 1000) { //1000kb以下
+        v = string.format("%.2f KB/s", size / 1024.0)
+    }
+    else if (size < 1024 * 1024 * 1000) { //1000MB以下
+        v = string.format("%.2f MB/s", size / 1024.0 / 1024.0)
+    }
+    return v;
+}
+hardwareType = {
+		[0] = "Motherboard";
+		[1] = "SuperIO";
+		[2] = "Cpu";
+		[3] = "Memory";
+		[4] = "GpuNvidia";
+		[5] = "GpuAmd";
+		[6] = "GpuIntel";
+		[7] = "Storage";
+		[8] = "Network";
+		[9] = "Cooler";
+		[10] = "EmbeddedController";
+		[11] = "Psu";
+		[12] = "Battery";
+}
+sensorType = {
+	[0] = "电压", // V
+	[1] = "现在";
+	[2] = "功耗", // W
+	[3] = "时钟", //MHZ
+	[4] = "温度", //C 
+	[5] = "负载", // %
+	[6] = "频率", // 
+	[7] = "风扇转速", // rpm
+	[8] = "流", // L/h
+	[9] = "控制", // %
+	[10] = "等级", // %
+	[11] = "因素", // 1
+	[12] = "数据", //GB
+	[13] = "低数据", //MB
+	[14] = "网速", //MB/s
+	[15] = "时间线", [16] = "电量", [17] = "噪音", }
+sensorFormat = {
+	[0] = lambda(v)..string.format("%.3f V", v);
+	[1] = lambda(v)..string.format("%.1f MHz", v);
+	[2] = lambda(v)..string.format("%.1f W", v);
+	[3] = lambda(v)..string.format("%.1f MHz", v);
+	[4] = lambda(v)..string.format("%.1f °C", v);
+	[5] = lambda(v)..string.format("%.1f %%", v);
+	[6] = lambda(v)..string.format("%.1f MHz", v);
+	[7] = lambda(v)..string.format("%d RPM", v); // RPM
+	[8] = lambda(v)..string.format("%.1f L/h", v);
+	[9] = lambda(v)..string.format("%.1f %%", v);
+	[10] = lambda(v)..string.format("%.1f %%", v);
+	[11] = lambda(v)..string.format("%d", v); //因素
+	[12] = lambda(v)..string.format("%.2f GB", v);
+	[13] = lambda(v)..string.format("%.2f MB", v);
+	[14] = lambda(v)..seep(v);
+    
+	[15] = lambda(v)..string.format("%d", v);
+	[16] = lambda(v)..string.format("%d", v);
+	[17] = lambda(v)..string.format("%d", v);
+}
+dotNet.reference({
+    "HidSharp" = $"/res/HidSharp.dll";
+})
+dotNet.loadFile($"/res/LibreHardwareMonitorLib.dll").import("LibreHardwareMonitor");
+var c = ..LibreHardwareMonitor.Hardware.Computer();
+c.IsBatteryEnabled = true;
+c.IsControllerEnabled = true;
+c.IsCpuEnabled = true;
+c.IsGpuEnabled = true;
+c.IsMemoryEnabled = true;
+c.IsMotherboardEnabled = true;
+c.IsNetworkEnabled = true;
+c.IsPsuEnabled = true;
+c.IsStorageEnabled = true;
+c.Open();
+var hardware = c.Hardware;
+
+var task3 = taskScheduler.create("每1秒显示时间", function() {
+    tbs.forms[1].sj.text = time();
+    var tb = {};
+    for (i = 1; hardware.Count; 1) {
+        hardware[i].Update()
+        for (j = 1; hardware[i].Sensors.Length; 1) {
+            var sensor = hardware[i].Sensors[j]
+            var sensors = sensorFormat[sensor.SensorType];
+            if (i == 2) {
+                if (sensor.Name == "CPU Total") {
+                    tb["CPU总使用率"] = sensors(sensor.Value: 0);
+                }
+                if (sensor.Name == "Core Average") {
+                    tb["平均温度"] = sensors(sensor.Value: 0);
+                }
+                if (sensor.Name == "CPU Package") {
+                    tb["CPU功率"] = sensors(sensor.Value: 0);
+                }
+                if (sensor.Name == "CPU Core") {
+                    tb["CPU电压"] = sensors(sensor.Value: 0);
+                }
+            }
+            if (i == 3) {
+                if (sensor.Name == "Memory") {
+                    tb["内存使用率"] = sensors(sensor.Value: 0);
+                }
+                if (sensor.Name == "Virtual Memory") {
+                    tb["虚拟内存使用率"] = sensors(sensor.Value: 0);
+                }
+                if (sensor.Name == "Memory Used") {
+                    tb["内存已使用"] = sensors(sensor.Value: 0);
+                }
+                if (sensor.Name == "Memory Available") {
+                    tb["内存未使用"] = sensors(sensor.Value: 0);
+                }
+            }
+            if (i == 5) {
+                if (sensor.Name == "Temperature") {
+                    tb["硬盘温度"] = sensors(sensor.Value: 0);
+                }
+                if (sensor.Name == "Used Space") {
+                    tb["硬盘已使用"] = sensors(sensor.Value: 0);
+                }
+                
+                if (sensor.Name == "Data Written") {
+                    tb["硬盘写数据量"] = sensors(sensor.Value: 0);
+                }
+                if (sensor.Name == "Data Read") {
+                    tb["硬盘读数据量"] = sensors(sensor.Value: 0);
+                }
+            }
+            if (hardware[i].Name == "WLAN") {
+                if (sensor.Name == "Upload Speed") {
+                    tb["上传速度"] = sensors(sensor.Value: 0);
+                }
+                if (sensor.Name == "Download Speed") {
+                    tb["下载速度"] = sensors(sensor.Value: 0);
+                }
+            }
+            
+        }
+    }
+    mainForm.tray.tip = "上传:"++tb["上传速度"]++"  下载:"++tb["下载速度"]
+        ++"
+ CPU:"++tb["CPU总使用率"]++"  内存:"++tb["内存使用率"]++"  CPU温度:"++tb["平均温度"]++"
+ 硬盘温度:"++tb["硬盘温度"]++"  内存:"++tb["内存已使用"]++"/"++tb["内存未使用"];
+})
+task3.interval = {
+    second = 1;
+}
+
+taskScheduler.start();
+
+tbs.selIndex = 1;
+//下面创建托盘图标
+mainForm.tray = win.util.tray(mainForm, $ "\ico.ico")
+
+//mainForm.tray.pop('托盘',"通知");
+mainForm.onTrayMessage = {
+	[0x205 /*_WM_RBUTTONUP*/ ] = function(wParam) {
+        win.setForeground(mainForm.hwnd)
+        mainForm.popmenu = win.ui.popmenu(mainForm); //创建弹出菜单
+        mainForm.popmenu.add('截图Ctrl+Q', function(id) {
+            process.execute(app.appdir + "/res/jt.exe")
+            
+        });
+        
+        mainForm.popmenu.add('打开hosts', function(id) {
+            var hostsPath = fsys.getWinDir() ++"\System32\drivers\etc\hosts";
+            process.execute("notepad", hostsPath)
+            
+        });
+        mainForm.popmenu.add();
+        mainForm.popmenu.add('更新壁纸', function(id) {
+            app.downbizhi()
+            
+        });
+        mainForm.popmenu.add('更换壁纸', function(id) {
+            app.setbizhi()
+            
+        });
+        mainForm.popmenu.add();
+        mainForm.popmenu.add('关闭显示器', function(id) {
+            mainForm.setTimeout(
+                function() {
+                    ::User32.SendNotifyMessage(0xFFFF /*_HWND_BROADCAST*/ , 0x112 /*_WM_SYSCOMMAND*/ , 0xF170 /*_SC_MONITORPOWER*/ , 2);
+                }, 200
+            )
+            
+        });
+        mainForm.popmenu.add('任务管理器', function(id) {
+            process.execute("Taskmgr")
+        });
+        mainForm.popmenu.add(); //分隔线
+        import win.reg;
+        var reg = win.reg("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run")
+        var istrue, _ = reg.queryValue("yoby");
+        istrue = !!istrue
+        var ids = mainForm.popmenu.add('开机启动', function(id) {
+            if (istrue == false) {
+                reg.setSzValue("yoby", io._exepath)
+                
+            }
+            else {
+                
+                reg.delValue("yoby");
+                
+            }
+            reg.close();
+        });
+        mainForm.popmenu.check(ids, istrue, 0 /*_MF_BYCOMMAND*/ );
+        
+        mainForm.popmenu.add('&退出', function(id) {
+            mainForm.close()
+        })
+        
+        mainForm.popmenu.popup();
+        mainForm.popmenu.close();
+    };
+	[0x202 /*_WM_LBUTTONUP*/ ] = function(wParam) {
+        
+    };
+	[0x203 /*_WM_LBUTTONDBLCLK*/ ] = function(wParam) { //双击
+        
+        win.setForeground(mainForm.hwnd)
+        mainForm.show(true)
+    };
+	[0x404 /*_PARAM_DESTROY*/ ] = function(wParam) {
+        
+    };
+	[0x405 /*_PARAM_CLICKED*/ ] = function(wParam) {
+        
+    };
+}
+/* 程序只能运行一个*/
+var atom, hwnd = mainForm.atom("2475484B-9952-466B-AAA1-BD209D02D63C");
+if (!atom) {
+    win.setForeground(mainForm.hwnd);
+    win.quitMessage();
+    return;
+}
+/*
+mainForm.onClose = function(hwnd,message,wParam,lParam){
+    //if(win.msgboxTest("是否退出程序")==true){
+    //mainForm.close()
+   // }else{
+   // mainForm.show(false);
+   // return true;
+   // }
+}
+*/
+mainForm.show();
+return win.loopMessage();

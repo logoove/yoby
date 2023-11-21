@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project ver="10" name="yoby" libEmbed="true" icon="ico.ico" ui="win" output="yoby.exe" CompanyName="Yoby开发" FileDescription="yoby" LegalCopyright="Copyright (C) 作者 2023" ProductName="万能工具" InternalName="yoby" FileVersion="1.0.0.41" ProductVersion="1.0.0.41" publishDir="/dist/" dstrip="false" local="false" ignored="false">
+	<file name="main.aardio" path="main.aardio" comment="main.aardio"/>
+	<folder name="资源文件" path="res" embed="true" local="false" ignored="false">
+		<file name="HidSharp.dll" path="res\HidSharp.dll" comment="res\HidSharp.dll"/>
+		<file name="LibreHardwareMonitorLib.dll" path="res\LibreHardwareMonitorLib.dll" comment="res\LibreHardwareMonitorLib.dll"/>
+		<file name="libwebp.dll" path="res\libwebp.dll" comment="res\libwebp.dll"/>
+	</folder>
+	<folder name="窗体文件" path="dlg" comment="目录" embed="true" local="false" ignored="false">
+		<file name="setting.aardio" path="dlg\setting.aardio" comment="dlg\setting.aardio"/>
+		<file name="first.aardio" path="dlg\first.aardio" comment="dlg\spelling.aardio"/>
+		<file name="help.aardio" path="dlg\help.aardio" comment="dlg\help.aardio"/>
+	</folder>
+</project>
