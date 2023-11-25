@@ -1,12 +1,15 @@
 import win.ui;
 import fonts.fontAwesome;
+import win.clip;
 /*DSG{{*/
 var winform = win.form(text="帮助";right=1040;bottom=607;bgcolor=16777215)
 winform.add(
-lnkWebSite={cls="plus";text="官方: https://yoby123.cn";left=12;top=7;right=220;bottom=43;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-16);iconColor=2960685;notify=1;textPadding={left=5};z=1};
-plus={cls="plus";text="版本: v1.0.1121";left=15;top=44;right=183;bottom=75;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-16);iconColor=2960685;notify=1;textPadding={left=5};z=3};
-plus2={cls="plus";text="作者:Yoby<logove@qq.com>";left=14;top=83;right=274;bottom=111;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-16);iconColor=2960685;notify=1;textPadding={left=5};z=4};
-plus3={cls="plus";text="copyright(C)2023";left=17;top=111;right=209;bottom=154;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-16);iconColor=2960685;notify=1;textPadding={left=5};z=5};
+lnkWebSite={cls="plus";text="官方: https://gitee.com/yoby/yoby";left=12;top=8;right=289;bottom=44;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-16);iconColor=2960685;notify=1;textPadding={left=5};z=1};
+plus={cls="plus";text="版本: v1.0.1121";left=22;top=124;right=190;bottom=155;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-16);iconColor=2960685;notify=1;textPadding={left=5};z=3};
+plus2={cls="plus";text="作者:Yoby<logove@qq.com>";left=23;top=167;right=283;bottom=195;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-16);iconColor=2960685;notify=1;textPadding={left=5};z=4};
+plus3={cls="plus";text="copyright(C)2023";left=28;top=209;right=220;bottom=252;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-16);iconColor=2960685;notify=1;textPadding={left=5};z=5};
+plus4={cls="plus";text="https://gitlab.com/ineo6/hosts/-/raw/master/hosts";left=15;top=45;right=442;bottom=81;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-16);iconColor=2960685;notify=1;textPadding={left=5};z=6};
+plus5={cls="plus";text="https://fastly.jsdelivr.net/gh/AutismSuperman/github-dns/hosts";left=15;top=72;right=541;bottom=125;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-16);iconColor=2960685;notify=1;textPadding={left=5};z=7};
 static={cls="static";left=35;top=248;right=128;bottom=270;transparent=1;z=2}
 )
 /*}}*/
@@ -17,6 +20,34 @@ winform.lnkWebSite.skin(style.link)
 import process;
 winform.lnkWebSite.oncommand = function(id,event){
 	process.openUrl("https://gitee.com/yoby/yoby")
+}
+
+winform.plus4.skin(
+	background = { 
+		hover = "/res/images/btn-hover.png";
+		focus = "/res/images/btn-focus.jpg";
+		active = "/res/images/btn-active.png";
+		disabled = "/res/images/btn-disabled.png"; 
+	}
+)
+winform.plus4.oncommand = function(id,event){
+	var url="https://gitlab.com/ineo6/hosts/-/raw/master/hosts"
+	win.clip.write(url);
+	winform.msgOk("复制成功",2000)
+}
+
+winform.plus5.skin(
+	background = { 
+		hover = "/res/images/btn-hover.png";
+		focus = "/res/images/btn-focus.jpg";
+		active = "/res/images/btn-active.png";
+		disabled = "/res/images/btn-disabled.png"; 
+	}
+)
+winform.plus5.oncommand = function(id,event){
+	var url="https://fastly.jsdelivr.net/gh/AutismSuperman/github-dns/hosts"
+win.clip.write(url);
+winform.msgOk("复制成功",2000)
 }
 
 winform.show();

@@ -4,6 +4,10 @@
 
 aardio开发的万能工具,支持切换下载壁纸,安装go,nodejs,python,flutter多版本,php开发环境免配置,pgsql,mysql等等40多项功能.
 
+## 更新日志
+- v1.0.1125 新增github代理, 支持自动|手动切换默认是60分钟更新一次, hosts需要读写权限, 支持自定义hosts远程地址, 在windows可以抛弃笨重的SwitchHosts工具.修改提示统一弹出框.修复若干bug.
+- v1.0.1122 修复php不能运行, 在caddy目录添加temp目录用于php的session存储, 增加web版本redis, 修复检测flutter乱码, 新增普通下载按钮.
+- v1.0.1121 初次发布, 其他版本php，mysql，pgsql，redis，caddy, frp, syncthing都是支持自己替换对应版本的, 你需要什么版本就直接替换文件夹即可.后续会发布不同版本的php, mysql, pgsql, redis等.这也是一个PHP集成环境服务.常见的nginx用caddy替换了, 主要是caddy配置更简单, 支持本地开发https, 自动https域名, 配合frp能开发小程序, app这种必须要https的域名.配合frp, 我们可以虚拟出无数个3级域名, 比如我自己的 xxx.api.shanliwawa.top, 前面的xxx可以自定义任何数字英文符号.
 ## 常见功能
 
 - Windows常见的一些功能快捷方式.
@@ -41,10 +45,6 @@ aardio开发的万能工具,支持切换下载壁纸,安装go,nodejs,python,flut
 - 下载的go nodejs python flutter在app目录下相应文件夹内.
 - caddy.7z就是服务器相关全部, 解压到c:\app下面即可.
 - yoby.exe是绿色文件可以放到任意目录.
-
-## 更新日志
-- v1.0.1122 修复php不能运行, 在caddy目录添加temp目录用于php的session存储, 增加web版本redis, 修复检测flutter乱码, 新增普通下载按钮.
-- v1.0.1121 初次发布, 其他版本php，mysql，pgsql，redis，caddy, frp, syncthing都是支持自己替换对应版本的, 你需要什么版本就直接替换文件夹即可.后续会发布不同版本的php, mysql, pgsql, redis等.这也是一个PHP集成环境服务.常见的nginx用caddy替换了, 主要是caddy配置更简单, 支持本地开发https, 自动https域名, 配合frp能开发小程序, app这种必须要https的域名.配合frp, 我们可以虚拟出无数个3级域名, 比如我自己的 xxx.api.shanliwawa.top, 前面的xxx可以自定义任何数字英文符号.
 ## 截图参考
 ![alt 属性文本](1.png)
 ![alt 属性文本](2.png)

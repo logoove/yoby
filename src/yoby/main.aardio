@@ -6,6 +6,7 @@ import win.util.tray;
 import win.ui.tabs;
 import preg;
 import debug.log;
+import fsys.file;
 /*DSG{{*/
 mainForm = win.form(text="万能工具";right=1040;bottom=642;bgcolor=16777215;border="none";max=false)
 mainForm.add(
@@ -26,7 +27,8 @@ cfg.user.purl = "https://www.python.org/ftp/python";
 /* https://registry.npmmirror.com/binary.html?path=python*/
 cfg.user.nurl= "https://nodejs.org/download/release";
 cfg.user.furl=  "https://storage.flutter-io.cn/flutter_infra_release/releases";
-
+cfg.user.gdns = "https://fastly.jsdelivr.net/gh/AutismSuperman/github-dns/hosts";
+cfg.user.gmin = 60
 import win.ui.simpleWindow;
 win.ui.simpleWindow(mainForm);
 
@@ -184,6 +186,32 @@ table_unique = function(tab){
     }   
     return newTab;
 }
+//github dns 自动更新
+githubdns  = function(){
+var gdns=  cfg.user.gdns
+var http = inet.http();
+var dnsstr = http.get(gdns);
+var dir = "C:\Windows\System32\drivers\etc\hosts";
+var arr = {}
+var str = string.load(dir)
+for line in string.lines(str) {
+	 if(line=="#--yoby编写--"){
+   break;
+   }
+	table.push(arr,line)
+}
+table.push(arr,"#--yoby编写--")
+for line1 in string.lines(dnsstr){
+table.push(arr,line1)
+}
+
+var f = fsys.file(dir, "w+")
+for(i=1;#arr;1){
+f.write(arr[i],'\r\n')
+}
+
+}
+
 
 };
 //全局热键
@@ -204,14 +232,18 @@ var task1 = taskScheduler.create("每30分钟切换壁纸", function() {
 var task2 = taskScheduler.create("每12小时下载壁纸", function() {
     app.downbizhi();
 })
-
+var task3 = taskScheduler.create("自动更新github代理", function() {
+    app.githubdns();
+})
 task1.interval = {
     minute = 30; //每30分钟切换一次
 }
 task2.interval = {
     hour = 12; //每12小时下载
 }
-
+task3.interval = {
+     minute = cfg.user.gmin
+}
 //流量显示
 import dotNet;
 
@@ -384,6 +416,16 @@ mainForm.onTrayMessage = {
         mainForm.popmenu.add('打开hosts', function(id) {
             var hostsPath = fsys.getWinDir() ++"\System32\drivers\etc\hosts";
             process.execute("notepad", hostsPath)
+            
+        });
+        mainForm.popmenu.add('打开hosts目录', function(id) {
+            var hostsPath = fsys.getWinDir() ++"\System32\drivers\etc\";
+            process.explore(hostsPath)
+            
+        });
+        mainForm.popmenu.add('更新hosts-DNS', function(id) {
+            app.githubdns();
+	mainForm.msgOk("更新成功")
             
         });
         mainForm.popmenu.add();
